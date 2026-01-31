@@ -84,7 +84,7 @@ function handleFavorite(pokemonId: number) {
               opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 </div>
 
-                <a :href="`/detail/${p.id}`" class="relative block">
+                <a :to="`/detail/${p.id}`" class="relative block">
 
                     <!-- Image -->
                     <div class="flex items-center justify-center py-4">
