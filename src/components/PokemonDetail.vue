@@ -2,7 +2,9 @@
 import { computed, onMounted, ref } from 'vue'
 import { usePokemonDetailStore } from '@/stores/pokemonDetailStore.ts'
 import { useRoute } from 'vue-router';
+import { useFavoriteStore } from '@/stores/pokemonFavoriteStore.ts';
 const store = usePokemonDetailStore()
+const favStore = useFavoriteStore()
 
 onMounted(() => {
   const route = useRoute()
@@ -26,6 +28,7 @@ const thumbnails = computed(() => {
   if (!store.pokemon) return []
 
   return [
+      store.pokemon?.sprites?.other?.['official-artwork']?.front_default ,
     store.pokemon.sprites?.front_default,
     store.pokemon.sprites?.back_default,
     store.pokemon.sprites?.front_shiny,
@@ -160,7 +163,12 @@ const thumbnails = computed(() => {
       <!-- Actions -->
       <div class="mt-8 flex justify-between items-center">
         <RouterLink to="/" class="btn btn-outline">← Geri</RouterLink>
-        <button class="btn btn-warning">⭐ Favorilere Ekle</button>
+        <button class="btn" :class="favStore.isFavorite(store.pokemon?.id??0)
+          ? 'btn-warning'
+          : 'btn-outline'" @click="favStore.toggleFavorite(store?.pokemon?.id??0)">
+          <span v-if="favStore.isFavorite(store?.pokemon?.id??0)">⭐ Favorilerden Çıkar</span>
+          <span v-else>☆ Favorilere Ekle</span>
+        </button>
       </div>
 
     </div>

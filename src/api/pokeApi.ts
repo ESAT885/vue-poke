@@ -20,6 +20,7 @@ export async function fetchPokemonsWithImages(limit = 20, offset = 0) {
                 name: pokemon.name,
                 image: pokemon.sprites.other['official-artwork'].front_default,
                 types: pokemon.types.map((t: any) => t.type.name),
+                isFavorite: false,
             }
         })
     )

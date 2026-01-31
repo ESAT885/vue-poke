@@ -1,18 +1,24 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import {  fetchPokemonsWithImages } from '@/api/pokeApi'
-
+const FAVORITE_KEY = 'pokemon-favorites'
 export interface PokemonListItem {
   id: number,
   name: string,
   image: string,
   types: string,
+  isFavorite: boolean,
 }
 
 export const usePokemonStore = defineStore('pokemon', () => {
   const pokemons = ref<PokemonListItem[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
+
+  /* FAVORITES (local) */
+  const favorites = ref<number[]>(
+    JSON.parse(localStorage.getItem(FAVORITE_KEY) || '[]')
+  )
 
   // infinite scroll state
   const offset = ref(0)
@@ -40,8 +46,11 @@ export const usePokemonStore = defineStore('pokemon', () => {
         hasMore.value = false
         return
       }
-
-      pokemons.value.push(...data)
+      const updatedData = data.map(p => ({
+      ...p,
+      isFavorite: favorites.value.includes(p.id),
+    }))
+      pokemons.value.push(...updatedData)
       offset.value += limit
     } catch (e: any) {
       error.value = e.message || 'Failed to load pokemons'
@@ -56,7 +65,14 @@ export const usePokemonStore = defineStore('pokemon', () => {
       p.name.toLowerCase().includes(query.value.toLowerCase())
     )
   })
-
+  /* localStorage sync */
+  watch(
+    favorites,
+    (val) => {
+      localStorage.setItem(FAVORITE_KEY, JSON.stringify(val))
+    },
+    { deep: true }
+  )
   return {
     pokemons,
     loading,

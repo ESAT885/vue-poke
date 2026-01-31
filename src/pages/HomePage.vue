@@ -6,7 +6,7 @@ import PokemonList from '@/components/PokemonList.vue'
 
 <template>
     <div class="">
-        <h1 class="text-2xl font-bold mb-4 pl-6 pt-2">Pokédex</h1>
+        <h1 class="text-2xl font-bold mb-4 pl-6 pt-2">Pokedex</h1>
         <PokemonList />
     </div>
 </template>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 import { usePokemonStore } from '@/stores/pokemonStore'
-
+import { useFavoriteStore } from '@/stores/pokemonFavoriteStore'
 
 const store = usePokemonStore()
 const sentinel = ref<HTMLElement | null>(null)
 let observer: IntersectionObserver | null = null
-
+const favStore = useFavoriteStore()
 
 onMounted(() => {
     store.loadPokemons()
@@ -36,13 +36,20 @@ onBeforeUnmount(() => {
         observer.disconnect()
     }
 })
+function handleFavorite(pokemonId: number) {
+  favStore.toggleFavorite(pokemonId)
+  const pokemon = store.filteredPokemons.find(p => p.id === pokemonId)
+  if (pokemon) {
+    pokemon.isFavorite = !pokemon.isFavorite
+  }
+}
 </script>
 
 
 <template>
     <div class="bg-base-200 p-6 min-h-screen overflow-y-auto md:overflow-visible">
         <!-- Search -->
-        <input v-model="store.query" type="text" placeholder="Search pokemon..."
+        <input v-model="store.query" type="text" placeholder="Pokemon Ara..."
             class="border rounded px-3 py-2 mb-4 w-full" />
 
 
@@ -55,14 +62,26 @@ onBeforeUnmount(() => {
         <!-- List -->
         <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
 
-            <li v-for="p in store.filteredPokemons" :key="p.id" 
-            class="group relative bg-base-100 rounded-2xl
+            <li v-for="p in store.filteredPokemons" :key="p.id" class="group relative bg-base-100 rounded-2xl
          shadow-sm hover:shadow-2xl
          transition-all duration-300
          overflow-hidden p-3 sm:p-4">
+
+                <!-- ⭐ FAVORİ -->
+                <button class="absolute top-3 right-3 z-20
+           btn btn-xs btn-circle
+           bg-base-100/80 backdrop-blur
+           hover:scale-110 transition" @click.stop.prevent="handleFavorite(p.id)">
+                    <span :class="p.isFavorite
+                        ? 'text-yellow-400'
+                        : 'text-gray-400'">
+                        ★
+                    </span>
+                </button>
+
                 <!-- Hover Glow -->
                 <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-pink-500/10
-           opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 </div>
 
                 <a :href="`/detail/${p.id}`" class="relative block">
@@ -99,6 +118,7 @@ onBeforeUnmount(() => {
 
                 </a>
             </li>
+
         </ul>
 
 
