@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import  HomePage  from '@/pages/HomePage.vue'
 import PokemonDetail from '@/components/PokemonDetail.vue'
-
+const isProd = import.meta.env.PROD
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history:isProd?createWebHashHistory() : createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
