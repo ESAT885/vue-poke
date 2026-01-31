@@ -14,6 +14,7 @@
     "lint": "eslint . --fix --cache"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
     "axios": "^1.13.3",
     "pinia": "^3.0.4",
     "vue": "^3.5.26",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",
+    "@tailwindcss/vite": "^4.1.18",
     "@tsconfig/node24": "^24.0.4",
     "@types/jsdom": "^27.0.0",
     "@types/node": "^24.10.9",
@@ -29,12 +31,14 @@
     "@vue/eslint-config-typescript": "^14.6.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
+    "daisyui": "^5.5.14",
     "eslint": "^9.39.2",
     "eslint-plugin-playwright": "^2.5.0",
     "eslint-plugin-vue": "~10.7.0",
     "jiti": "^2.6.1",
     "jsdom": "^27.4.0",
     "npm-run-all2": "^8.0.4",
+    "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
     "vite": "^7.3.1",
     "vite-plugin-vue-devtools": "^8.0.5",
