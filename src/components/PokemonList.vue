@@ -84,7 +84,7 @@ function handleFavorite(pokemonId: number) {
               opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 </div>
 
-                <a :to="`/detail/${p.id}`" class="relative block">
+                <router-link :to="`/detail/${p.id}`" class="relative block">
 
                     <!-- Image -->
                     <div class="flex items-center justify-center py-4">
@@ -116,14 +116,14 @@ function handleFavorite(pokemonId: number) {
                         </p>
                     </div>
 
-                </a>
+                </router-link>
             </li>
 
         </ul>
 
 
         <!-- Loading -->
-        <p v-if="store.loading" class="mt-4">Loading...</p>
+        <p v-if="store.loading" class="mt-4">Yükleniyor...</p>
 
 
         <!-- Sentinel for infinite scroll -->

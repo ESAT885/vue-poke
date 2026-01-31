@@ -14,7 +14,7 @@ export async function fetchPokemonsWithImages(limit = 20, offset = 0) {
         data.results.map(async (p: { name: string; url: string }) => {
             const res = await axios.get(p.url)
             const pokemon = res.data
-            console.log(pokemon);
+
             return {
                 id: pokemon.id,
                 name: pokemon.name,
