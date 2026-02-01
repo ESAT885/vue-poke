@@ -1,5 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import {
+  fetchPokemonApi,
+  fetchPokemonSpeciesApi,
+  fetchEvolutionChainApi,
+} from '@/api/pokemonDetailApi'
 export interface Pokemon {
   id: number
   name: string
@@ -36,48 +41,19 @@ export const usePokemonDetailStore = defineStore('pokemonDetail', () => {
       loading.value = true
       error.value = null
 
-      const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
-      if (!res.ok) throw new Error('Pokemon bulunamadı')
-      pokemon.value = await res.json()
+      pokemon.value = await fetchPokemonApi(id)
 
-      await fetchSpecies(id)
+      const species = await fetchPokemonSpeciesApi(id)
+      captureRate.value = species.capture_rate
+
+      evolutionChain.value = await fetchEvolutionChainApi(
+        species.evolution_chain.url
+      )
     } catch (e: any) {
-      error.value = e.message
+      error.value = e.message || 'Bir hata oluştu'
     } finally {
       loading.value = false
     }
-  }
-
-  async function fetchSpecies(id: number) {
-    const res = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
-    const data = await res.json()
-
-    captureRate.value = data.capture_rate
-    await fetchEvolutionChain(data.evolution_chain.url)
-  }
-
-  async function fetchEvolutionChain(url: string) {
-    const res = await fetch(url)
-    const data = await res.json()
-
-    const chain: EvolutionItem[] = []
-
-    function walk(node: any) {
-      const parts = node.species.url.split('/')
-      const id = Number(parts[parts.length - 2])
-
-      chain.push({
-        id,
-        name: node.species.name
-      })
-
-      if (node.evolves_to.length) {
-        walk(node.evolves_to[0])
-      }
-    }
-
-    walk(data.chain)
-    evolutionChain.value = chain
   }
 
   return {
@@ -86,6 +62,6 @@ export const usePokemonDetailStore = defineStore('pokemonDetail', () => {
     captureRate,
     loading,
     error,
-    fetchPokemon
+    fetchPokemon,
   }
 })
