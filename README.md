@@ -1,5 +1,20 @@
 # vue-poke
+## 🚀 Live Demo
 
+👉 **Canlı proje:**  
+https://esat885.github.io/vue-poke/
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="assets/mainPage.png" alt="Vue Poke Screenshot 1" width="100%" />
+  &nbsp;&nbsp;
+  <img src="assets/mainPageLight.png" alt="Vue Poke Screenshot 2" width="100%" />
+  &nbsp;&nbsp;
+  <img src="assets/detail1.png" alt="Vue Poke Screenshot 2" width="45%" />
+  &nbsp;&nbsp;
+    <img src="assets/detail2.png" alt="Vue Poke Screenshot 2" width="45%" />
+</p>
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
