@@ -47,6 +47,7 @@ function handleFavorite(pokemonId: number) {
 
 
 <template>
+   
     <div class="bg-base-200 p-6 min-h-screen overflow-y-auto md:overflow-visible">
         <!-- Search -->
         <input v-model="store.query" type="text" placeholder="Pokemon Ara..."

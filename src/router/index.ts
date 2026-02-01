@@ -1,19 +1,20 @@
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
-import  HomePage  from '@/pages/HomePage.vue'
-import PokemonDetail from '@/components/PokemonDetail.vue'
+import PokemonDetailPage from '@/pages/PokemonDetailPage.vue'
+import PokemonListPage from '@/pages/PokemonListPage.vue'
 const isProd = import.meta.env.PROD
 const router = createRouter({
   history:isProd?createWebHashHistory() : createWebHistory(import.meta.env.BASE_URL),
   routes: [
+
     {
-      path: "/",
-      name: "home",
-      component: HomePage
+      path:"/",
+      name:"home",
+      component:PokemonListPage
     },
     {
       path:"/detail/:id",
       name:"detail",
-      component:PokemonDetail
+      component:PokemonDetailPage
     }
   ],
 })
